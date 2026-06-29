@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .clip-hero {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  }
+  .clip-menu {
+    clip-path: polygon(0 0, 100% 0, 100% 95%, 0% 100%);
+  }
+  .clip-gallery {
+    clip-path: polygon(0 6%, 100% 0%, 100% 100%, 0 100%);
+  }
+  .clip-events {
+    clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 100%);
+  }
+  .clip-reservation {
+    clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+  }
+}
