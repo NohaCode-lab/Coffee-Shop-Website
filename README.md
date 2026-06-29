@@ -1,20 +1,20 @@
 # ☕ Coffee Shop Website
 
-A modern, responsive Coffee Shop website built with React and Vite.  
-This project showcases a cozy coffee brand with elegant UI, smooth animations, and a fully responsive design.
+A modern and responsive Coffee Shop website built using React and Vite.  
+The project delivers a cozy and elegant user experience for showcasing coffee products, desserts, events, and reservations.
 
 ---
 
 ## ✨ Features
 
-- ☕ Beautiful coffee menu (espresso, cappuccino, latte, etc.)
-- 🍰 Desserts & food showcase
-- 📸 Image gallery section
-- 🎉 Events section (birthday, family, moments)
-- 📅 Reservation system UI
-- 📱 Fully responsive design
+- ☕ Coffee menu (espresso, latte, cappuccino, etc.)
+- 🍰 Delicious desserts section
+- 📸 Image gallery
+- 🎉 Events (birthday, family gatherings, moments)
+- 📅 Reservation form UI
+- 📱 Fully responsive design (mobile/tablet/desktop)
 - ⚡ Fast performance using Vite
-- 🧩 Reusable React components
+- 🧩 Modular React components
 - 🎨 Modern UI/UX design
 
 ---
@@ -33,20 +33,19 @@ This project showcases a cozy coffee brand with elegant UI, smooth animations, a
 ## 📁 Project Structure
 
 src/
-├── assets/        # Images and media files
-├── components/    # Reusable components
-├── layouts/       # Navbar & Footer
-├── pages/         # Page components
-├── sections/      # Home sections (Hero, Menu, Gallery, etc.)
-├── App.jsx        # Main app
-├── main.jsx       # Entry point
-└── index.css      # Global styles
+├── assets/
+├── components/
+├── layouts/
+├── pages/
+├── sections/
+├── App.jsx
+├── main.jsx
+└── index.css
 
 ---
 
 ## 🚀 Getting Started
 
-Clone the repository:
-
+### Clone the repository
 ```bash
 git clone https://github.com/NohaCode-lab/Coffee-Shop-Website.git
