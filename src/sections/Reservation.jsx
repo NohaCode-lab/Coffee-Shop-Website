@@ -1,53 +1,44 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, Clock, Heart } from 'lucide-react';
+import { motion, AnimatePresence } from "framer-motion";
+import { Zap, Clock, Heart } from "lucide-react";
+import useForm from "../hooks/useForm";
+
+const initialFormData = {
+  name: "",
+  email: "",
+  phone: "",
+  guests: "",
+  date: "",
+  time: "",
+  notes: "",
+};
 
 const Reservation = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    guests: '',
-    date: '',
-    time: '',
-    notes: '',
-  });
-  const [response, setResponse] = useState({ message: '', type: '' });
+  const {
+    formData,
+    response,
+    handleChange,
+    handleSubmit: handleFormSubmit,
+  } = useForm(initialFormData);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleSubmit = (e) => {
+    handleFormSubmit(e, {
+      message: "Processing your reservation...",
+      successMessage: "Reservation confirmed! We look forward to serving you.",
+      errorMessage:
+        "Error processing reservation. Please try again or call us.",
+    });
   };
 
-  const simulateApiCall = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setResponse({ message: 'Processing your reservation...', type: 'processing' });
-
-    try {
-      await simulateApiCall(1500);
-      setResponse({ message: 'Reservation confirmed! We look forward to serving you.', type: 'success' });
-      setFormData({ name: '', email: '', phone: '', guests: '', date: '', time: '', notes: '' });
-    } catch (error) {
-      setResponse({ message: 'Error processing reservation. Please try again or call us.', type: 'error' });
-    }
-  };
-
-  useEffect(() => {
-    if (response.type === 'success') {
-      const timer = setTimeout(() => setResponse({ message: '', type: '' }), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [response]);
-
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
   const maxDate = new Date(new Date().setFullYear(new Date().getFullYear() + 1))
     .toISOString()
-    .split('T')[0];
+    .split("T")[0];
 
   return (
-    <section id="reservation" className="bg-gradient-to-t from-blue-50 to-pink-50 py-16 clip-reservation relative overflow-hidden">
+    <section
+      id="reservation"
+      className="bg-gradient-to-t from-blue-50 to-pink-50 py-16 clip-reservation relative overflow-hidden"
+    >
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <motion.h2
@@ -58,7 +49,9 @@ const Reservation = () => {
           >
             Book a Table
           </motion.h2>
-          <p className="text-slate-600 mt-2">Plan your perfect moment — reserve your seat today.</p>
+          <p className="text-slate-600 mt-2">
+            Plan your perfect moment — reserve your seat today.
+          </p>
         </div>
 
         <div className="bg-white rounded-xl shadow-xl overflow-hidden flex flex-wrap">
@@ -102,7 +95,9 @@ const Reservation = () => {
                 required
                 className="p-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
               >
-                <option value="" disabled>Number of Guests</option>
+                <option value="" disabled>
+                  Number of Guests
+                </option>
                 <option value="1">1 Person</option>
                 <option value="2">2 People</option>
                 <option value="3">3 People</option>
@@ -148,43 +143,58 @@ const Reservation = () => {
               Reserve Now
             </motion.button>
 
-            <motion.AnimatePresence>
+            <AnimatePresence>
               {response.message && (
                 <motion.div
+                  key="response-message"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className={`mt-4 text-center ${response.type === 'success' ? 'text-green-600' : 'text-red-600'}`}
+                  className={`mt-4 text-center ${
+                    response.type === "success"
+                      ? "text-green-600"
+                      : response.type === "error"
+                        ? "text-red-600"
+                        : "text-slate-600"
+                  }`}
                 >
                   {response.message}
                 </motion.div>
               )}
-            </motion.AnimatePresence>
+            </AnimatePresence>
           </form>
 
           {/* Info Panel */}
           <div className="bg-gradient-to-br from-blue-600 to-pink-600 text-white p-8 flex-1 min-w-[280px]">
-            <h3 className="text-2xl font-semibold text-pink-200 text-center mb-6">Why Reserve With Us?</h3>
+            <h3 className="text-2xl font-semibold text-pink-200 text-center mb-6">
+              Why Reserve With Us?
+            </h3>
             <div className="space-y-6">
               <div className="flex gap-4">
                 <Zap className="text-pink-300 text-2xl" />
                 <div>
                   <h4 className="font-medium">Instant Confirmation</h4>
-                  <p className="text-sm opacity-90">No waiting—your table is secured immediately.</p>
+                  <p className="text-sm opacity-90">
+                    No waiting—your table is secured immediately.
+                  </p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <Clock className="text-pink-300 text-2xl" />
                 <div>
                   <h4 className="font-medium">Flexible Changes</h4>
-                  <p className="text-sm opacity-90">Modify your booking anytime, hassle-free.</p>
+                  <p className="text-sm opacity-90">
+                    Modify your booking anytime, hassle-free.
+                  </p>
                 </div>
               </div>
               <div className="flex gap-4">
                 <Heart className="text-pink-300 text-2xl" />
                 <div>
                   <h4 className="font-medium">Personalized Experience</h4>
-                  <p className="text-sm opacity-90">We accommodate allergies, celebrations, and more.</p>
+                  <p className="text-sm opacity-90">
+                    We accommodate allergies, celebrations, and more.
+                  </p>
                 </div>
               </div>
             </div>

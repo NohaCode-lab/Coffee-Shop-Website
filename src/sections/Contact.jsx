@@ -1,30 +1,24 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin } from 'lucide-react';
 
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Phone, MapPin } from 'lucide-react';
+import useForm from '../hooks/useForm';
+
+const initialFormData = { name: '', email: '', message: '' };
 
 const Contact = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [response, setResponse] = useState({ message: '', type: '' });
+  const {
+    formData,
+    response,
+    handleChange,
+    handleSubmit: handleFormSubmit,
+  } = useForm(initialFormData);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const simulateApiCall = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setResponse({ message: 'Sending your message...', type: 'processing' });
-
-    try {
-      await simulateApiCall(1500);
-      setResponse({ message: 'Message sent! We will get back to you soon.', type: 'success' });
-      setFormData({ name: '', email: '', message: '' });
-    } catch {
-      setResponse({ message: 'Error sending message. Please try again.', type: 'error' });
-    }
+  const handleSubmit = (e) => {
+    handleFormSubmit(e, {
+      processingMessage: 'Sending your message...',
+      successMessage: 'Message sent! We will get back to you soon.',
+      errorMessage: 'Error sending message. Please try again.',
+    });
   };
 
   return (
@@ -112,15 +106,25 @@ const Contact = () => {
                 Send Message
               </button>
 
-              {response.message && (
-                <div
-                  className={`mt-2 text-center ${
-                    response.type === 'success' ? 'text-green-600' : 'text-red-600'
-                  }`}
-                >
-                  {response.message}
-                </div>
-              )}
+              <AnimatePresence>
+                {response.message && (
+                  <motion.div
+                    key="response-message"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className={`mt-2 text-center ${
+                      response.type === 'success'
+                        ? 'text-green-600'
+                        : response.type === 'error'
+                        ? 'text-red-600'
+                        : 'text-slate-600'
+                    }`}
+                  >
+                    {response.message}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.form>
           </div>
         </div>
